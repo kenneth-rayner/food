@@ -34,8 +34,9 @@ class WelcomeControllerSpec extends PlaySpec with GuiceOneAppPerTest {
       contentAsString(result) must include("<h1>Good morning!</h1>")
       contentAsString(result) must include("<title>Welcome!</title>")
     }
-    "say good afternoon when it's the afternoon and have a title" ignore {
-      val controller = new WelcomeController(FakeMorningGreeter)
+
+    "say good afternoon when it's the afternoon and have a title" in {
+      val controller = new WelcomeController(FakeAfternoonGreeter)
       val result = controller.welcome().apply(FakeRequest(GET, "/foo"))
       contentAsString(result) must not include "<h1>Good morning!</h1>"
       contentAsString(result) must include("<h1>Good afternoon!</h1>")
@@ -43,6 +44,9 @@ class WelcomeControllerSpec extends PlaySpec with GuiceOneAppPerTest {
     }
     object FakeMorningGreeter extends GreetingService {
       override def greeting: String = "Good morning!"
+    }
+    object FakeAfternoonGreeter extends GreetingService {
+      override def greeting: String = "Good afternoon!"
     }
       class WelcomeControllerSpec extends PlaySpec with GuiceOneAppPerTest {
         "WelcomeController GET" should {
